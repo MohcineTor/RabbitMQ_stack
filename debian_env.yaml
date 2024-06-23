@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debian-rabbitmq-app
+  namespace: dev
+spec:
+  containers:
+  - name: debian-env
+    image: debian:latest
+    command: ["/bin/bash", "-c"]
+    args:
+      - |
+        mkdir -p /rabbitmq && \
+        cd /rabbitmq && \
+        apt update && apt install -y python3 python3-pip python3-venv nano && \
+        python3 -m venv .venv && \
+        source .venv/bin/activate && \
+        pip3 install pika && \
+        sleep infinity
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "500m"
+      requests:
+        memory: "256Mi"
+        cpu: "250m"
+
+
